@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.HotelTempMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.HotelTemp">
+        <!--@Table hoter_temp-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="traffic" column="traffic" jdbcType="VARCHAR"/>
+        <result property="metro" column="metro" jdbcType="VARCHAR"/>
+        <result property="attraction" column="attraction" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="imgpath" column="imgPath" jdbcType="VARCHAR"/>
+        <result property="hotelId" column="hotel_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, traffic, metro, attraction, status, type, imgPath, hotel_id
+        from HMS.hotel_temp
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, traffic, metro, attraction, status, type, imgPath, hotel_id
+        from HMS.hotel_temp
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, traffic, metro, attraction, status, type, imgPath, hotel_id
+        from HMS.hotel_temp
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="traffic != null and traffic != ''">
+                and traffic = #{traffic}
+            </if>
+            <if test="metro != null and metro != ''">
+                and metro = #{metro}
+            </if>
+            <if test="attraction != null and attraction != ''">
+                and attraction = #{attraction}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="imgpath != null and imgpath != ''">
+                and imgPath = #{imgpath}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into HMS.hotel_temp(traffic, metro, attraction, status, type, imgPath, hotel_id)
+        values (#{traffic}, #{metro}, #{attraction}, #{status}, #{type}, #{imgpath}, #{hotelId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update HMS.hoter_temp
+        <set>
+            <if test="traffic != null and traffic != ''">
+                traffic = #{traffic},
+            </if>
+            <if test="metro != null and metro != ''">
+                metro = #{metro},
+            </if>
+            <if test="attraction != null and attraction != ''">
+                attraction = #{attraction},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="imgpath != null and imgpath != ''">
+                imgPath = #{imgpath},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="delete">
+        delete from HMS.hotel_temp where hotel_id = #{hotelId}
+    </delete>
+
+    <select id="queryByHotelId" resultMap="BaseResultMap">
+        select
+          id, traffic, metro, attraction, status, type, imgPath, hotel_id
+        from HMS.hotel_temp
+        where hotel_id = #{hotelId}
+    </select>
+
+
+</mapper>

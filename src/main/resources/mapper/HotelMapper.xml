@@ -37,6 +37,15 @@
         limit #{page}, #{count}
     </select>
 
+    <!--查询指定行数据-->
+    <select id="queryReviewListByLimit" resultMap="BaseResultMap">
+        select
+          id, uuid, name, area, province, city, traffic, metro, attraction, star, price, status, type, imgPath, hotel_name
+        from HMS.Hotel
+         where status = 1
+        limit #{page}, #{count}
+    </select>
+
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select

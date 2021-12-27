@@ -63,5 +63,10 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.queryAllByLimit(start,end);
     }
 
+    public List<Hotel> queryReviewListByLimit(int page, int count){
+        int start = page*count-count;
+        int end = page*count;
+        return hotelMapper.queryReviewListByLimit(start, end);
+    }
 
 }

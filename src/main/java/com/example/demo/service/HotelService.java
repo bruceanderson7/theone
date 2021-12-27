@@ -20,4 +20,6 @@ public interface HotelService {
     int update(Hotel hotel);
 
     List<Hotel> queryAllByLimit(int page, int count);
+
+    List<Hotel> queryReviewListByLimit(int page, int count);
 }
