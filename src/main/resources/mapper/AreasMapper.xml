@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.AreaMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Areas">
+        <!--@Table areas-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="areaid" column="areaid" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="cityid" column="cityid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, areaid, area, cityid
+        from HMS.areas
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, areaid, area, cityid
+        from HMS.areas
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="getAreasList" resultMap="BaseResultMap">
+        select
+          id, areaid, area, cityid
+        from HMS.areas
+        <where>
+            <if test="cityid != null and cityid != ''">
+                and cityid = #{cityid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into HMS.areas(areaid, area, cityid)
+        values (#{areaid}, #{area}, #{cityid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update HMS.areas
+        <set>
+            <if test="areaid != null and areaid != ''">
+                areaid = #{areaid},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="cityid != null and cityid != ''">
+                cityid = #{cityid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from HMS.areas where id = #{id}
+    </delete>
+
+</mapper>

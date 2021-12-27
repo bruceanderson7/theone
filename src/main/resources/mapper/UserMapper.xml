@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=".dao.UserDao">
+<mapper namespace="com.example.demo.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type=".entity.User">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.User">
         <!--@Table user-->
+        <result property="id" column="id" jdbcType="BIGINT"/>
         <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
@@ -12,22 +13,25 @@
         <result property="gender" column="gender" jdbcType="INTEGER"/>
         <result property="role" column="role" jdbcType="INTEGER"/>
         <result property="scout" column="scout" jdbcType="VARCHAR"/>
+        <result property="imgPath" column="imgPath" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BaseResultMap">
+    <select id="queryByUUid" resultType="com.example.demo.entity.User">
         select
-          uuid, name, password, email, phone, gender, role, scout
+          id, uuid, name, password, email, phone, gender, role, scout, imgPath, status
         from HMS.user
         where uuid = #{uuid}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
-        select
-          uuid, name, password, email, phone, gender, role, scout
-        from HMS.user
-        limit #{offset}, #{limit}
+        select * from user order by id limit ${page}, ${count}
+    </select>
+
+    <select id="queryByName" resultType="java.lang.Boolean">
+        select * from user where name = #{name}
     </select>
 
     <!--通过实体作为筛选条件查询-->
@@ -65,8 +69,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="uuid" useGeneratedKeys="true">
-        insert into HMS.user(name, password, email, phone, gender, role, scout)
-        values (#{name}, #{password}, #{email}, #{phone}, #{gender}, #{role}, #{scout})
+        insert into HMS.user(uuid,name, password, email, phone, gender, role, scout, imgPath, status)
+        values (#{uuid}, #{name}, #{password}, #{email}, #{phone}, #{gender}, #{role}, #{scout},#{imgPath}, #{status})
     </insert>
 
     <!--通过主键修改数据-->
@@ -94,6 +98,12 @@
             <if test="scout != null and scout != ''">
                 scout = #{scout},
             </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="imgPath != null and imgPath != ''">
+                imgPath = #{imgPath},
+            </if>
         </set>
         where uuid = #{uuid}
     </update>
@@ -103,4 +113,19 @@
         delete from HMS.user where uuid = #{uuid}
     </delete>
 
+    <select id="verifyUser" resultType="com.example.demo.entity.User">
+        select * from user
+        where
+              name = #{name} and password = #{password} and status = 1
+    </select>
+
+    <select id="verifyAdmin" resultType="com.example.demo.entity.User">
+        select * from user
+        where
+            name = #{name} and password = #{password} and status = 1 and role = 1
+    </select>
+
+    <select id="getUserByName" resultType="com.example.demo.entity.User">
+        select * from user where name = #{name}
+    </select>
 </mapper>

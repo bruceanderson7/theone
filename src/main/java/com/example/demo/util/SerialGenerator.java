@@ -25,6 +25,15 @@ public class SerialGenerator {
 //    }
 
     //生成6位随机数字
+    public static String generateUUid(){
+        Random random = new Random();
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            str.append(random.nextInt(10));
+        }
+        return str.toString();
+    }
+
     public static String generateVerifyCode(){
         Random random = new Random();
         StringBuilder str = new StringBuilder();

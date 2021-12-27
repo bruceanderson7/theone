@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
  * @Author: Bruce Shen
@@ -10,6 +11,8 @@ import java.io.Serializable;
  **/
 @Data
 public class User implements Serializable {
+    private int id;
+
     private String uuid;
 
     private String name;
@@ -24,7 +27,9 @@ public class User implements Serializable {
 
     private int role;
 
-    private String scout;
+    private int scout;
+
+    private int status;
 
     private String imgPath;
 }

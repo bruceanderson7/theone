@@ -1,0 +1,55 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+
+spring:
+  #图片上传
+  servlet:
+    multipart:
+      max-request-size: 20MB # 上传文件的最大值
+      max-file-size: 10MB # 单个文件上传的最大值
+      #数据源
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/HMS?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: tyrants1999
+  #缓存模式为redis
+  cache:
+    type: redis
+  #redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000
+    #连接池配置
+    jedis:
+      pool:
+        #最大空闲连接数
+        max-idle: 500
+        #最小空闲连接数
+        min-idle: 5
+        #等待可用连接最大时间，负数为无限制
+        max-wait: -1s
+        #最大活跃连接时间
+        max-active: -1
+  mail:
+    host: smtp.qq.com
+    username: 844068648@qq.com
+    password: tyrants1999
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+
+mybatis:
+  type-aliases-package: com.example.demo.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
