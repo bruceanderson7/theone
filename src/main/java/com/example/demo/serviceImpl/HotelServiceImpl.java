@@ -69,4 +69,11 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.queryReviewListByLimit(start, end);
     }
 
+    public List<Hotel> searchByHotelName(String name){
+        return hotelMapper.searchByHotelName(name);
+    }
+
+    public List<Hotel> screenHotel(String province,String city,String area,String traffic,String metro,String attraction,int star,String type){
+        return hotelMapper.screenHotel(province, city, area, traffic, metro, attraction, star, type);
+    }
 }

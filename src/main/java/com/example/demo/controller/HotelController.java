@@ -195,4 +195,41 @@ public class HotelController {
         hotelMap.put("总条数", totals);
         return DataReturn.success(hotelMap);
     }
+
+    @GetMapping("/searchByName")
+    public DataReturn<Map<String,Hotel>> searchHotel(@RequestParam("name")String name){
+        Map hotelMap = new HashMap();
+        if(name == null || name == "" ) {
+            hotelMap.put("msg","查询条件不能为空");
+            return DataReturn.failure(hotelMap);
+        }
+        List hotelList = hotelService.searchByHotelName(name);
+        int totals = 0;
+        for (Object hotel : hotelList) {
+            totals++;
+            Integer total = new Integer(totals);
+            String hotelKey = total.toString();
+            hotelMap.put(hotelKey, hotel);
+        }
+        hotelMap.put("总条数", totals);
+        return DataReturn.success(hotelMap);
+    }
+
+    @GetMapping("/screen")
+    public DataReturn<Map<String,Hotel>> screenHotel(@RequestParam("province")String province,@RequestParam("city")String city,
+    @RequestParam(value = "area",required = false)String area,@RequestParam(value = "traffic",required = false)String traffic,@RequestParam(value="metro",required = false)String metro,
+    @RequestParam(value = "attraction",required = false)String attraction,@RequestParam(value = "star",required = false)int star,@RequestParam(value = "type",required = false)String type){
+        Map hotelMap = new HashMap();
+        List hotelList = hotelService.screenHotel(province,city,area,traffic,metro,attraction,star,type);
+        int totals = 0;
+        for (Object hotel : hotelList) {
+            totals++;
+            Integer total = new Integer(totals);
+            String hotelKey = total.toString();
+            hotelMap.put(hotelKey, hotel);
+        }
+        hotelMap.put("总条数", totals);
+        return DataReturn.success(hotelMap);
+    }
 }
+

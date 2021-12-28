@@ -21,4 +21,9 @@ public interface HotelMapper {
 
     List<Hotel> queryReviewListByLimit(int page, int count);
 
+    List<Hotel> searchByHotelName(String name);
+
+    List<Hotel> screenHotel(String province,String city,String area,String traffic,String metro,String attraction,int star,String type);
+
+
 }

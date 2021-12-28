@@ -22,4 +22,8 @@ public interface HotelService {
     List<Hotel> queryAllByLimit(int page, int count);
 
     List<Hotel> queryReviewListByLimit(int page, int count);
+
+    List<Hotel> screenHotel(String province,String city,String area,String traffic,String metro,String attraction,int star,String type);
+
+    List<Hotel> searchByHotelName(String name);
 }
