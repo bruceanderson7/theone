@@ -231,5 +231,23 @@ public class HotelController {
         hotelMap.put("总条数", totals);
         return DataReturn.success(hotelMap);
     }
+
+    @GetMapping("/screenAndSearch")
+    public DataReturn<Map<String,Hotel>> screenHotel(@RequestParam("hotelName")String hotelName,@RequestParam("province")String province,@RequestParam("city")String city,
+                                                     @RequestParam(value = "area",required = false)String area,@RequestParam(value = "traffic",required = false)String traffic,@RequestParam(value="metro",required = false)String metro,
+                                                     @RequestParam(value = "attraction",required = false)String attraction,@RequestParam(value = "star",required = false)int star,@RequestParam(value = "type",required = false)String type){
+        Map hotelMap = new HashMap();
+        List<Hotel> hotelList = hotelService.screenAndSearch(hotelName,province,city,area,traffic,metro,attraction,star,type);
+        int totals = 0;
+        for (Object hotel : hotelList) {
+            totals++;
+            Integer total = new Integer(totals);
+            String hotelKey = total.toString();
+            hotelMap.put(hotelKey, hotel);
+        }
+        hotelMap.put("总条数", totals);
+        return DataReturn.success(hotelMap);
+    }
+
 }
 

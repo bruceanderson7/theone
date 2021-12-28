@@ -76,4 +76,8 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> screenHotel(String province,String city,String area,String traffic,String metro,String attraction,int star,String type){
         return hotelMapper.screenHotel(province, city, area, traffic, metro, attraction, star, type);
     }
+
+    public List<Hotel> screenAndSearch(String hotelName,String province,String city,String area,String traffic,String metro,String attraction,int star,String type){
+        return hotelMapper.screenAndSearch(hotelName, province, city, area, traffic, metro, attraction, star, type);
+    }
 }

@@ -64,6 +64,40 @@
         or type = #{type}
     </select>
 
+    <select id="screenAndSearch" resultMap="BaseResultMap">
+    select * from HMS.Hotel
+        <where>
+            <if test="hotelName != null and hotelName!= ''">
+                <bind name="pattern" value="'%'+hotelName+'%'"/>
+                hotel_name like #{pattern}
+            </if>
+            <if test="province != null and province!= ''">
+                AND province =#{province}
+            </if>
+            <if test="city != null and city != ''">
+                AND city =#{city}
+            </if>
+            <if test="area != null and area!= ''">
+                OR area =#{area}
+            </if>
+            <if test="traffic != null and traffic!= ''">
+                OR traffic =#{traffic}
+            </if>
+            <if test="metro != null and metro!= ''">
+                OR metro =#{metro}
+            </if>
+            <if test="attraction != null and attraction!= ''">
+                OR attraction =#{attraction}
+            </if>
+            <if test="star != null and star!= ''">
+                AND star =#{star}
+            </if>
+            <if test="type != null and type!= ''">
+                OR type =#{type}
+            </if>
+        </where>
+    </select>
+
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select

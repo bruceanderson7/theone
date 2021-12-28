@@ -25,5 +25,5 @@ public interface HotelMapper {
 
     List<Hotel> screenHotel(String province,String city,String area,String traffic,String metro,String attraction,int star,String type);
 
-
+    List<Hotel> screenAndSearch(String hotelName,String province,String city,String area,String traffic,String metro,String attraction,int star,String type);
 }
