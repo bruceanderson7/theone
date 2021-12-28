@@ -57,16 +57,20 @@ public class HotelController {
             hotel.setName(name);
             if (traffic == null || traffic == "")
                 hotel.setTraffic("无");
-            hotel.setTraffic(traffic);
+            else
+                hotel.setTraffic(traffic);
             if (metro == null || metro == "")
                 hotel.setMetro("无");
-            hotel.setMetro(metro);
+            else
+                hotel.setMetro(metro);
             if (attraction == null || attraction == "")
                 hotel.setAttraction("无");
-            hotel.setAttraction(attraction);
+            else
+                hotel.setAttraction(attraction);
             if (imgPath == null || imgPath == "")
                 hotel.setImgPath("default");
-            hotel.setImgPath(imgPath);
+            else
+                hotel.setImgPath(imgPath);
             hotel.setStar(0);
             hotel.setStatus(1);    //审核中为1，审核成功为2，审核失败为3
 

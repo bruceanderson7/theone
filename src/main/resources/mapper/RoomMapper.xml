@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.RoomMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Room">
+        <!--@Table room-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="hotelId" column="hotel_id" jdbcType="INTEGER"/>
+        <result property="roomId" column="room_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="imgPath" column="img_path" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="clientName" column="client_name" jdbcType="VARCHAR"/>
+        <result property="clientPhone" column="client_phone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByRoomId" resultType="java.lang.Boolean">
+        select
+          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone
+        from HMS.room
+        where room_id = #{roomId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone
+        from HMS.room
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone
+        from HMS.room
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="hotelId != null">
+                and hotel_id = #{hotelId}
+            </if>
+            <if test="roomId != null">
+                and room_id = #{roomId}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="imgPath != null and imgPath != ''">
+                and img_path = #{imgPath}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="clientName != null and clientName != ''">
+                and client_name = #{clientName}
+            </if>
+            <if test="clientPhone != null and clientPhone != ''">
+                and client_phone = #{clientPhone}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into HMS.room(hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone)
+        values (#{hotelId}, #{roomId}, #{type}, #{status}, #{imgPath}, #{price}, #{description}, #{clientName}, #{clientPhone})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update HMS.room
+        <set>
+            <if test="hotelId != null">
+                hotel_id = #{hotelId},
+            </if>
+            <if test="roomId != null">
+                room_id = #{roomId},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="imgPath != null and imgPath != ''">
+                img_path = #{imgPath},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="clientName != null and clientName != ''">
+                client_name = #{clientName},
+            </if>
+            <if test="clientPhone != null and clientPhone != ''">
+                client_phone = #{clientPhone},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from HMS.room where id = #{id}
+    </delete>
+
+</mapper>
