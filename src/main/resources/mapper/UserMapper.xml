@@ -34,6 +34,10 @@
         select * from user where name = #{name}
     </select>
 
+    <select id="searchByUserName" resultMap="BaseResultMap">
+        <bind name="pattern1" value="'%'+name+'%'"/>
+        select * from HMS.user where name like #{pattern1}
+    </select>
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select

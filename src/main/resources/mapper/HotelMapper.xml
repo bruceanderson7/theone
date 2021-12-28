@@ -34,6 +34,7 @@
         select
           id, uuid, name, area, province, city, traffic, metro, attraction, star, price, status, type, imgPath, hotel_name
         from HMS.Hotel
+        where status = 2
         limit #{page}, #{count}
     </select>
 

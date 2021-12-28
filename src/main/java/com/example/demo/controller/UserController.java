@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Hotel;
 import com.example.demo.entity.User;
 import com.example.demo.service.MailService;
 import com.example.demo.service.UserService;
@@ -360,7 +361,24 @@ public class UserController {
         return userMap;
     }
 
-
+    @GetMapping("/searchByName")
+    public DataReturn<Map<String, Hotel>> searchHotel(@RequestParam("name")String name){
+        Map userMap = new HashMap();
+        if(name == null || name == "" ) {
+            userMap.put("msg","查询条件不能为空");
+            return DataReturn.failure(userMap);
+        }
+        List hotelList = userService.searchByUserName(name);
+        int totals = 0;
+        for (Object hotel : hotelList) {
+            totals++;
+            Integer total = new Integer(totals);
+            String hotelKey = total.toString();
+            userMap.put(hotelKey, hotel);
+        }
+        userMap.put("总条数", totals);
+        return DataReturn.success(userMap);
+    }
 
 }
 

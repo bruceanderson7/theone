@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Hotel;
 import com.example.demo.entity.User;
 import com.example.demo.util.DataReturn;
 
@@ -29,4 +30,6 @@ public interface UserService {
     User getUserByName(String name);
 
     List<User> queryAllByLimit(int page, int count);
+
+    List<User> searchByUserName(String name);
 }

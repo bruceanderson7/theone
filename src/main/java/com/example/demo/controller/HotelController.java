@@ -137,13 +137,6 @@ public class HotelController {
             return DataReturn.success(hotel);
     }
 
-    /*
-        @GetMapping("/search")
-        public DataReturn<Map<String,Hotel>> search(){
-
-        }
-
-     */
     @GetMapping("/edit")
     public DataReturn<Void> editHotel(@RequestParam("id") long id, @RequestParam(value = "traffic", required = false) String traffic, @RequestParam(value = "metro", required = false) String metro,
                                       @RequestParam(value = "attraction", required = false) String attraction, @RequestParam(value = "type", required = false) String type,

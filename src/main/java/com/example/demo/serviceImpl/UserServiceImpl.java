@@ -117,4 +117,8 @@ public class UserServiceImpl implements UserService {
         int end = page*count;
         return userMapper.queryAllByLimit(start,end);
     }
+
+    public List<User> searchByUserName(String name){
+        return userMapper.searchByUserName(name);
+    }
 }
