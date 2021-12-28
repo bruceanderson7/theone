@@ -52,42 +52,16 @@
             select * from HMS.Hotel where hotel_name like #{pattern1}
     </select>
 
-    <select id="screenHotel" resultMap="BaseResultMap">
-        <bind name="pattern1" value="'%'+province+'%'"/>
-        <bind name="pattern2" value="'%'+city+'%'"/>
-        <bind name="pattern3" value="'%'+area+'%'"/>
-        <bind name="pattern4" value="'%'+traffic+'%'"/>
-        <bind name="pattern5" value="'%'+metro+'%'"/>
-        <bind name="pattern6" value="'%'+attraction+'%'"/>
-        <bind name="pattern7" value="'%'+star+'%'"/>
-        <bind name="pattern8" value="'%'+type+'%'"/>
-        select * from HMS.Hotel where province like #{pattern1}
-        or city like #{pattern2}
-        or area like #{pattern3}
-        or traffic like #{pattern4}
-        or metro like #{pattern5}
-        or attraction like #{pattern6}
-        or star like #{pattern7}
-        or type like #{pattern8}
-    </select>
 
     <select id="screenHotel" resultMap="BaseResultMap">
-        <bind name="pattern1" value="'%'+province+'%'"/>
-        <bind name="pattern2" value="'%'+city+'%'"/>
-        <bind name="pattern3" value="'%'+area+'%'"/>
-        <bind name="pattern4" value="'%'+traffic+'%'"/>
-        <bind name="pattern5" value="'%'+metro+'%'"/>
-        <bind name="pattern6" value="'%'+attraction+'%'"/>
-        <bind name="pattern7" value="'%'+star+'%'"/>
-        <bind name="pattern8" value="'%'+type+'%'"/>
-        select * from HMS.Hotel where province like #{pattern1}
-        or city like #{pattern2}
-        or area like #{pattern3}
-        or traffic like #{pattern4}
-        or metro like #{pattern5}
-        or attraction like #{pattern6}
-        or star like #{pattern7}
-        or type like #{pattern8}
+        select * from HMS.Hotel where province = #{province}
+        and city = #{city}
+        or area = #{area}
+        or traffic = #{traffic}
+        or metro = #{metro}
+        or attraction = #{attraction}
+        and star = #{star}
+        or type = #{type}
     </select>
 
     <!--通过实体作为筛选条件查询-->
