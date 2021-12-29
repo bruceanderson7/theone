@@ -34,9 +34,17 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone
+          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
         from HMS.room
         limit #{offset}, #{limit}
+    </select>
+
+    <select id="queryLeisureByLimit" resultMap="BaseResultMap">
+        select
+            id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
+        from HMS.room
+            where status = 1
+                 limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->

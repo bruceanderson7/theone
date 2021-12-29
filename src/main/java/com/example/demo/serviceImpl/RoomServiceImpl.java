@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
 import static com.example.demo.util.SerialGenerator.generateUUid;
 
 /**
@@ -49,5 +51,17 @@ public class RoomServiceImpl implements RoomService {
         String uuid = room.getUuid();
         redisUtil.set(uuid,room);
         roomMapper.update(room);
+    }
+
+    public List<Room> queryAllByLimit(int page, int count){
+        int start = page*count-count;
+        int end = page*count;
+        return roomMapper.queryAllByLimit(start,end);
+    }
+
+    public List<Room> queryLeisureByLimit(int page, int count){
+        int start = page*count-count;
+        int end = page*count;
+        return roomMapper.queryLeisureByLimit(start,end);
     }
 }
