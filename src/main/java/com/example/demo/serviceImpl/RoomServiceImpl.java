@@ -24,8 +24,6 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RedisUtil redisUtil;
 
-    private Integer r;
-
     private String roomKey;
 
     public Boolean queryByRoomId(int roomId){
@@ -37,10 +35,19 @@ public class RoomServiceImpl implements RoomService {
 
     public int insert(Room room){
         int i = 1;
-        r = new Integer(room.getRoomId());
-        roomKey = r.toString();
+        roomKey = room.getUuid();
         redisUtil.set(roomKey,room);
         i = roomMapper.insert(room);
         return i;
+    }
+
+    public Room queryById(long id){
+        return roomMapper.queryById(id);
+    }
+
+    public void update(Room room){
+        String uuid = room.getUuid();
+        redisUtil.set(uuid,room);
+        roomMapper.update(room);
     }
 }

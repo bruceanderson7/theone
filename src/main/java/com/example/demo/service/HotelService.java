@@ -19,6 +19,8 @@ public interface HotelService {
 
     int update(Hotel hotel);
 
+    Hotel getMyHotel(String name);
+
     List<Hotel> queryAllByLimit(int page, int count);
 
     List<Hotel> queryReviewListByLimit(int page, int count);

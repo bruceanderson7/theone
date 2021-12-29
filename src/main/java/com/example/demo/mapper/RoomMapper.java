@@ -12,4 +12,8 @@ public interface RoomMapper {
     Boolean queryByRoomId(int roomId);
 
     int insert(Room room);
+
+    Room queryById(long id);
+
+    void update(Room room);
 }

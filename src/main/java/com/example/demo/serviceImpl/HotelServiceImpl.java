@@ -48,6 +48,10 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.queryById(id);
     }
 
+    public Hotel getMyHotel(String name){
+        return hotelMapper.getMyHotel(name);
+    }
+
     public int update(Hotel hotel){
         int i = 0;
         if(hotel != null){

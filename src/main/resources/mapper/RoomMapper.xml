@@ -10,7 +10,7 @@
         <result property="type" column="type" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="imgPath" column="img_path" jdbcType="VARCHAR"/>
-        <result property="price" column="price" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="DOUBLE"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="clientName" column="client_name" jdbcType="VARCHAR"/>
         <result property="clientPhone" column="client_phone" jdbcType="VARCHAR"/>
@@ -19,9 +19,16 @@
     <!--查询单个-->
     <select id="queryByRoomId" resultType="java.lang.Boolean">
         select
-          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone
+          id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
         from HMS.room
         where room_id = #{roomId}
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+            id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
+        from HMS.room
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
@@ -73,8 +80,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into HMS.room(hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone)
-        values (#{hotelId}, #{roomId}, #{type}, #{status}, #{imgPath}, #{price}, #{description}, #{clientName}, #{clientPhone})
+        insert into HMS.room(hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid)
+        values (#{hotelId}, #{roomId}, #{type}, #{status}, #{imgPath}, #{price}, #{description}, #{clientName}, #{clientPhone}, #{uuid})
     </insert>
 
     <!--通过主键修改数据-->
@@ -107,6 +114,9 @@
             </if>
             <if test="clientPhone != null and clientPhone != ''">
                 client_phone = #{clientPhone},
+            </if>
+            <if test="uuid != null and uuid != ''">
+                uuid = #{uuid},
             </if>
         </set>
         where id = #{id}

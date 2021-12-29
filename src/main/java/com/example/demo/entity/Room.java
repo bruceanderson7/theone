@@ -26,12 +26,14 @@ public class Room implements Serializable {
 
     private String imgPath;
 
-    private Integer price;
+    private double price;
 
     private String description;
 
     private String clientName;
 
     private String clientPhone;
+
+    private String uuid;
 
 }

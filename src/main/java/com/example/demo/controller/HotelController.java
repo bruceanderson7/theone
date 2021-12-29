@@ -48,7 +48,7 @@ public class HotelController {
             Hotel hotel = new Hotel();
             String uuid = generateUUid();
             hotel.setUuid(uuid);
-            hotel.setName(hotelName);
+            hotel.setHotelName(hotelName);
             hotel.setProvince(province);
             hotel.setCity(city);
             hotel.setArea(area);
@@ -244,6 +244,15 @@ public class HotelController {
         }
         hotelMap.put("总条数", totals);
         return DataReturn.success(hotelMap);
+    }
+
+    /*
+    用户获取自己的酒店信息
+     */
+    @GetMapping("/getMyHotel")
+    public DataReturn<Hotel> getMyHotel(@RequestParam("userName")String name){
+        Hotel hotel = hotelService.getMyHotel(name);
+        return DataReturn.success(hotel);
     }
 
 }

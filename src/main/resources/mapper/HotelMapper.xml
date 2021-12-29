@@ -209,6 +209,10 @@
     </delete>
 
     <select id="queryByName" resultType="java.lang.Boolean">
+        select * from Hotel where hotel_name = #{name}
+    </select>
+
+    <select id="getMyHotel" resultMap="BaseResultMap">
         select * from Hotel where name = #{name}
     </select>
 
