@@ -8,6 +8,11 @@ import com.example.demo.util.DataReturn;
 import com.example.demo.util.RedisUtil;
 import com.example.demo.util.ResultCode;
 import com.example.demo.util.SerialGenerator;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.domain.Page;
@@ -97,10 +102,14 @@ public class UserController {
             //使用MD5加密算法
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
             User user = userService.verifyUser(name, md5Password);
-            if (user != null) {
-                return DataReturn.success(user);
-            } else {
-                return DataReturn.failure("账号名或密码错误，账号可能被禁用！");
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(),user.getPassword());
+            try{
+                subject.login(usernamePasswordToken);
+            }catch (UnknownAccountException e){
+                return DataReturn.failure("用户名不存在");
+            }catch (AuthenticationException e){
+                return DataReturn.failure("没有权限");
             }
         }
         return DataReturn.failure(ResultCode.REQUEST_NULL_EXCEPTION);
@@ -113,10 +122,14 @@ public class UserController {
             //使用MD5加密算法
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
             User user = userService.verifyAdmin(name, md5Password);
-            if (user != null) {
-                return DataReturn.success(user);
-            } else {
-                return DataReturn.failure("用户账号或密码错误，未找到该管理员，账号可能被禁用！");
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(),user.getPassword());
+            Subject subject = SecurityUtils.getSubject();
+            try{
+                subject.login(usernamePasswordToken);
+            }catch (UnknownAccountException e){
+                return DataReturn.failure("用户名不存在");
+            }catch (AuthenticationException e){
+                return DataReturn.failure("没有权限");
             }
         }
         return DataReturn.failure(ResultCode.REQUEST_NULL_EXCEPTION);
