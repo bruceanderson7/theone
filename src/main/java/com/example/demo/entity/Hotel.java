@@ -25,6 +25,8 @@ public class Hotel implements Serializable {
     private String province;
     
     private String city;
+
+    private String address;  //详细地址
     
     private String traffic;
     

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.OrderDao">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Order">
+        <!--@Table order-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="clientName" column="client_name" jdbcType="VARCHAR"/>
+        <result property="clientPhone" column="client_phone" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="OTHER"/>
+        <result property="hotelName" column="hotel_name" jdbcType="VARCHAR"/>
+        <result property="hotelAddress" column="hotel_address" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="roomType" column="room_type" jdbcType="VARCHAR"/>
+        <result property="roomDescription" column="room_description" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status
+        from HMS.order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status
+        from HMS.order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status
+        from HMS.order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="clientName != null and clientName != ''">
+                and client_name = #{clientName}
+            </if>
+            <if test="clientPhone != null and clientPhone != ''">
+                and client_phone = #{clientPhone}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="hotelName != null and hotelName != ''">
+                and hotel_name = #{hotelName}
+            </if>
+            <if test="hotelAddress != null and hotelAddress != ''">
+                and hotel_address = #{hotelAddress}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="roomType != null and roomType != ''">
+                and room_type = #{roomType}
+            </if>
+            <if test="roomDescription != null and roomDescription != ''">
+                and room_description = #{roomDescription}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into HMS.order(client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status)
+        values (#{clientName}, #{clientPhone}, #{price}, #{hotelName}, #{hotelAddress}, #{createTime}, #{roomType}, #{roomDescription}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update HMS.order
+        <set>
+            <if test="clientName != null and clientName != ''">
+                client_name = #{clientName},
+            </if>
+            <if test="clientPhone != null and clientPhone != ''">
+                client_phone = #{clientPhone},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="hotelName != null and hotelName != ''">
+                hotel_name = #{hotelName},
+            </if>
+            <if test="hotelAddress != null and hotelAddress != ''">
+                hotel_address = #{hotelAddress},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="roomType != null and roomType != ''">
+                room_type = #{roomType},
+            </if>
+            <if test="roomDescription != null and roomDescription != ''">
+                room_description = #{roomDescription},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from HMS.order where id = #{id}
+    </delete>
+
+</mapper>

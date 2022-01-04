@@ -26,6 +26,18 @@ spring:
             threadCount: 10
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
+
+  shiro:
+    filterChainDefinitionMap:
+      /logout: logout
+      /**: authc
+      /hotel/getList: anon
+      /hotel/getDetail: anon
+      /hotel/searchByName: anon
+      /hotel/screen: anon
+      /hotel/screenAndSearch: anon
+
+
   #图片上传
   servlet:
     multipart:
@@ -65,6 +77,9 @@ spring:
         smtp:
           ssl:
             enable: true
+  main:
+    allow-circular-references: true
+
 
 mybatis:
   type-aliases-package: com.example.demo.entity

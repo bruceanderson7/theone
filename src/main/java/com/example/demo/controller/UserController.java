@@ -14,12 +14,9 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.data.domain.Page;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,8 +50,8 @@ public class UserController {
                                          @RequestParam("phone") String phone,
                                          @RequestParam(value = "gender", required = false) Integer gender,
                                          @RequestParam(value = "imgPath", required = false) String imgPath) {
-        if (name == null || name == "" || password == null || password == "" || email == null || email == ""||
-                verifyCode == null || verifyCode == "" || phone == null || phone == "") {
+        if (name == null || name.equals("") || password == null || password.equals("") || email == null || email.equals("")||
+                verifyCode == null || verifyCode.equals("") || phone == null || phone.equals("")) {
             return DataReturn.failure(ResultCode.REQUEST_NULL_EXCEPTION);
         } else {
             if (userService.queryByName(name)) {
@@ -72,7 +69,7 @@ public class UserController {
                 user.setGender(1);
             else
                 user.setGender(gender);
-            if (imgPath == null || imgPath == "")
+            if (imgPath == null || imgPath.equals(""))
                 user.setImgPath("default");
             else
                 user.setImgPath(imgPath);
@@ -377,7 +374,7 @@ public class UserController {
     @GetMapping("/searchByName")
     public DataReturn<Map<String, Hotel>> searchHotel(@RequestParam("name")String name){
         Map userMap = new HashMap();
-        if(name == null || name == "" ) {
+        if(name == null || name.equals("")) {
             userMap.put("msg","查询条件不能为空");
             return DataReturn.failure(userMap);
         }

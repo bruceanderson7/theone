@@ -38,8 +38,8 @@ public class HotelController {
                                           @RequestParam("city") String city, @RequestParam("area") String area, @RequestParam(value = "traffic", required = false) String traffic,
                                           @RequestParam(value = "metro", required = false) String metro, @RequestParam(value = "attraction", required = false) String attraction
             , @RequestParam("price") double price, @RequestParam(value = "type") String type, @RequestParam(value = "imgPath", required = false) String imgPath) {
-        if (hotelName == "" || hotelName == null || province == "" || province == null || city == "" || city == null || area == ""
-                || area == null || price <= 0 || type == null || type == "") {
+        if (hotelName.equals("") || hotelName == null || province.equals("") || province == null || city.equals("") || city == null || area.equals("")
+                || area == null || price <= 0 || type == null || type.equals("")) {
             return DataReturn.failure(ResultCode.REQUEST_NULL_EXCEPTION);
         } else {
             if (hotelService.queryByName(hotelName))
@@ -149,23 +149,23 @@ public class HotelController {
         HotelTemp hotelTemp = new HotelTemp();
         hotelTemp.setHotelId(id);
         if (hotel != null) {
-            if (traffic == "" || traffic == null)
+            if (traffic.equals("") || traffic == null)
                 traffic = hotel.getTraffic();
             hotelTemp.setTraffic(traffic);
 
-            if (metro == "" || metro == null)
+            if (metro.equals("") || metro == null)
                 metro = hotel.getMetro();
             hotelTemp.setMetro(metro);
 
-            if (attraction == "" || attraction == null)
+            if (attraction.equals("") || attraction == null)
                 attraction = hotel.getAttraction();
             hotelTemp.setAttraction(attraction);
 
-            if (type == "" || type == null)
+            if (type.equals("") || type == null)
                 type = hotel.getType();
             hotelTemp.setType(type);
 
-            if (imgPath == "" || imgPath == null)
+            if (imgPath.equals("") || imgPath == null)
                 imgPath = hotel.getImgPath();
             hotelTemp.setImgpath(imgPath);
 
@@ -177,7 +177,7 @@ public class HotelController {
     }
 
     @GetMapping("/getReviewList")
-    public DataReturn<Map<String, Hotel>> getReviewList(int page, int count) {
+    public DataReturn<Map<String, Hotel>> getReviewList(@RequestParam("page") int page, @RequestParam("count") int count) {
         if (page < 1 || count < 1)
             return null;
         Map hotelMap = new HashMap();

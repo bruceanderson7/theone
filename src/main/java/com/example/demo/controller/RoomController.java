@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Hotel;
+import com.example.demo.entity.Order;
 import com.example.demo.entity.Room;
-import com.example.demo.entity.RoomTemp;
 import com.example.demo.service.HotelService;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.RoomService;
-import com.example.demo.service.RoomTempService;
 import com.example.demo.util.DataReturn;
 import com.example.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class RoomController {
     private RedisUtil redisUtil;
 
     @Autowired
-    private RoomTempService roomTempService;
+    private OrderService orderService;
 
     @GetMapping("/register")
     public DataReturn<Void> registerRoom(@RequestParam("hotelId")long hotelId,@RequestParam("roomId")int roomId,@RequestParam("type")String type,
@@ -50,11 +50,11 @@ public class RoomController {
             room.setRoomId(roomId);
             room.setType(type);
             room.setPrice(price);
-            if(imgPath == null || imgPath == "")
+            if(imgPath == null || imgPath.equals(""))
                 room.setImgPath("默认");
             else
                 room.setImgPath(imgPath);
-            if(description == null || description == "")
+            if(description == null || description.equals(""))
                 room.setDescription("无");
             else
                 room.setDescription(description);
@@ -105,21 +105,18 @@ public class RoomController {
     @RequestParam(value = "price",required = false)double price,@RequestParam(value = "description",required = false)String description){
         Room room = roomService.queryById(id);
         Hotel hotel = hotelService.queryById(room.getHotelId());
-        if(room != null){
-            if(type != null && type != "")
+
+            if(type != null && !type.equals(""))
                 room.setType(type);
-            if(imgPath != null && imgPath != "")
+            if(imgPath != null && !imgPath.equals(""))
                 room.setImgPath(imgPath);
             if(price > hotel.getPrice())
                 room.setPrice(price);
-            if(description != null && description != "")
+            if(description != null && !description.equals(""))
                 room.setDescription(description);
 
             roomService.update(room);
             return DataReturn.success();
-        }
-        else
-            return DataReturn.failure("未查找到该房间");
     }
 
     /*
@@ -176,13 +173,22 @@ public class RoomController {
      */
     @GetMapping("/reserve")
     public DataReturn<Void> reserveRoom(@RequestParam("roomId")long roomId,@RequestParam("clientName")String clientName,@RequestParam("clientPhone")String clientPhone){
-        RoomTemp roomTemp = new RoomTemp();
+        Order order = new Order();
         Room room = roomService.queryById(roomId);
+        long hotelId = room.getHotelId();
+        Hotel hotel = hotelService.queryById(hotelId);
             try{
                 if(redisUtil.tryLock("reserveLock",room.getUuid())) {
-                    roomTemp.setClientName(clientName);
-                    roomTemp.setClientPhone(clientPhone);
-                    roomTempService.insert(roomTemp);
+                    order.setClientName(clientName);
+                    order.setClientPhone(clientPhone);
+                    order.setHotelName(hotel.getHotelName());
+                    order.setPrice(room.getPrice());
+                    order.setRoomType(room.getType());
+                    order.setRoomDescription(room.getDescription());
+                    order.setRoomId(roomId);
+                    order.setHotelAddress(hotel.getAddress());
+                    order.setStatus(1);        //1代表等待商家处理中
+                    orderService.insert(order);
                 }
             }catch (Exception e){
 
@@ -192,41 +198,5 @@ public class RoomController {
         return DataReturn.success();
     }
 
-    /*
-    酒店管理员接单
-     */
-    @GetMapping("/accept")
-    public DataReturn<Void> acceptReverse(@RequestParam("roomId")long id){
-        RoomTemp roomTemp = roomTempService.queryById(id);
-        Room room = roomService.queryById(id);
-        room.setStatus(2);
-        room.setClientName(roomTemp.getClientName());
-        room.setClientPhone(roomTemp.getClientPhone());
-        roomTempService.delete(id);
-        roomService.update(room);
-        return DataReturn.success();
-        //还需要添加发送邮件功能
-    }
 
-    /*
-    酒店管理员拒绝接单
-     */
-    @GetMapping("/defuse")
-    public DataReturn<Void> defuseReverse(@RequestParam("roomId")long id){
-        roomTempService.delete(id);
-        return DataReturn.success();
-        //还需要添加发送邮件功能
-    }
-
-    /*
-    酒店管理员查看所有预订列表
-     */
-
-    /*
-    生成订单信息
-     */
-
-    /*
-    用户取消预订
-     */
 }

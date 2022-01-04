@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.HotelTempMapper">
+<mapper namespace="com.example.demo.mapper.HotelTempDao">
 
     <resultMap id="BaseResultMap" type="com.example.demo.entity.HotelTemp">
-        <!--@Table hoter_temp-->
+        <!--@Table hotel_temp-->
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="traffic" column="traffic" jdbcType="VARCHAR"/>
         <result property="metro" column="metro" jdbcType="VARCHAR"/>
@@ -15,11 +15,11 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BaseResultMap">
+    <select id="queryByHotelId" resultMap="BaseResultMap">
         select
           id, traffic, metro, attraction, status, type, imgPath, hotel_id
         from HMS.hotel_temp
-        where id = #{id}
+        where hotel_id = #{hotelId}
     </select>
 
     <!--查询指定行数据-->
@@ -57,6 +57,9 @@
             <if test="imgpath != null and imgpath != ''">
                 and imgPath = #{imgpath}
             </if>
+            <if test="hotelId != null">
+                and hotel_id = #{hotelId}
+            </if>
         </where>
     </select>
 
@@ -68,7 +71,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update HMS.hoter_temp
+        update HMS.hotel_temp
         <set>
             <if test="traffic != null and traffic != ''">
                 traffic = #{traffic},
@@ -88,6 +91,9 @@
             <if test="imgpath != null and imgpath != ''">
                 imgPath = #{imgpath},
             </if>
+            <if test="hotelId != null">
+                hotel_id = #{hotelId},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -96,13 +102,5 @@
     <delete id="delete">
         delete from HMS.hotel_temp where hotel_id = #{hotelId}
     </delete>
-
-    <select id="queryByHotelId" resultMap="BaseResultMap">
-        select
-          id, traffic, metro, attraction, status, type, imgPath, hotel_id
-        from HMS.hotel_temp
-        where hotel_id = #{hotelId}
-    </select>
-
 
 </mapper>
