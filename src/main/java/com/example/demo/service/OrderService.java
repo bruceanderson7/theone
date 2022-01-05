@@ -11,10 +11,10 @@ import java.util.List;
  */
 public interface OrderService {
     Order queryById(long id);
-    List<Order> queryAllByLimit(int page, int count);
+    List<Order> queryAllByLimit(int page, int count, String hotelName);
     int insert(Order order);
     void update(Order order);
     void deleteById(long id);
-
+    List<Order> queryMyOrderList(long userId,int page,int count);
 
 }

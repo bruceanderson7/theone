@@ -172,7 +172,7 @@ public class RoomController {
     预定房间
      */
     @GetMapping("/reserve")
-    public DataReturn<Void> reserveRoom(@RequestParam("roomId")long roomId,@RequestParam("clientName")String clientName,@RequestParam("clientPhone")String clientPhone){
+    public DataReturn<Void> reserveRoom(@RequestParam("roomId")long roomId,@RequestParam("clientName")String clientName,@RequestParam("clientPhone")String clientPhone,@RequestParam("userId")long userId){
         Order order = new Order();
         Room room = roomService.queryById(roomId);
         long hotelId = room.getHotelId();
@@ -188,6 +188,7 @@ public class RoomController {
                     order.setRoomId(roomId);
                     order.setHotelAddress(hotel.getAddress());
                     order.setStatus(1);        //1代表等待商家处理中
+                    order.setUserId(userId);
                     orderService.insert(order);
                 }
             }catch (Exception e){

@@ -22,10 +22,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RedisUtil redisUtil;
 
-    public List<Order> queryAllByLimit(int page, int count){
+    public List<Order> queryAllByLimit(int page, int count, String hotelName){
         int start = page*count-count;
         int end = page*count;
-        return orderMapper.queryAllByLimit(start,end);
+        return orderMapper.queryAllByLimit(start,end,hotelName);
+    }
+
+    public List<Order> queryMyOrderList(long userId, int page, int count){
+        int start = page*count-count;
+        int end = page*count;
+        return orderMapper.queryMyOrderList(userId, start, end);
     }
 
     public int insert(Order order){

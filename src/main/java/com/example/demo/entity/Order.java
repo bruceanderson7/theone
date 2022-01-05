@@ -37,4 +37,6 @@ public class Order implements Serializable {
 
     private long roomId;
 
+    private long userId;
+
 }
