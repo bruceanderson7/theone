@@ -27,6 +27,8 @@ public interface UserMapper {
 
     User queryByUUid(String uuid);
 
+    User queryById(long id);
+
     User getUserByName(String name);
 
     List<User> queryAllByLimit(int page, int count);

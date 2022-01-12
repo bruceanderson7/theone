@@ -36,7 +36,7 @@
         select
           id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
         from HMS.room
-        limit #{offset}, #{limit}
+        limit #{page}, #{count}
     </select>
 
     <select id="queryLeisureByLimit" resultMap="BaseResultMap">
@@ -44,7 +44,7 @@
             id, hotel_id, room_id, type, status, img_path, price, description, client_name, client_phone, uuid
         from HMS.room
             where status = 1
-                 limit #{offset}, #{limit}
+            limit #{page}, #{count}
     </select>
 
     <!--通过实体作为筛选条件查询-->

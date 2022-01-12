@@ -13,6 +13,8 @@ import java.util.List;
 public interface UserService {
     Boolean queryByName(String name);
 
+    User queryById(long id);
+
     Integer verifyEmailAndCode(String email, String verifyCode);
 
     int insert(User user);

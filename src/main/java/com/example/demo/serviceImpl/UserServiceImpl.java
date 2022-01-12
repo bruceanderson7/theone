@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
         return -1;  //验证过期
     }
 
+    public User queryById(long id){
+        return userMapper.queryById(id);
+    }
+
+
     public int insert(User user){
         int i = 0;
         if(user == null)

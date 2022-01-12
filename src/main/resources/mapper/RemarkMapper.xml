@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.RemarkMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Remark">
+        <!--@Table remark-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="star" column="star" jdbcType="INTEGER"/>
+        <result property="text" column="text" jdbcType="VARCHAR"/>
+        <result property="imgPath" column="img_path" jdbcType="VARCHAR"/>
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="anonymity" column="anonymity" jdbcType="INTEGER"/>
+        <result property="reply" column="reply" jdbcType="VARCHAR"/>
+        <result property="clientName" column="client_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+       limit #{page}, #{count}
+    </select>
+
+    <select id="queryGoodRemark" resultMap="BaseResultMap">
+        select
+            id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+            where star>3.5
+                 limit #{page}, #{count}
+    </select>
+
+    <select id="queryBadRemark" resultMap="BaseResultMap">
+        select
+            id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+        where 3.5 >= star
+            limit #{page}, #{count}
+    </select>
+
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="star != null">
+                and star = #{star}
+            </if>
+            <if test="text != null and text != ''">
+                and text = #{text}
+            </if>
+            <if test="imgPath != null and imgPath != ''">
+                and img_path = #{imgPath}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="anonymity != null">
+                and anonymity = #{anonymity}
+            </if>
+            <if test="reply != null and reply != ''">
+                and reply = #{reply}
+            </if>
+            <if test="clientName != null and clientName != ''">
+                and client_name = #{clientName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into HMS.remark(star, text, img_path, order_id, create_time, anonymity, reply, client_name)
+        values (#{star}, #{text}, #{imgPath}, #{orderId}, #{createTime}, #{anonymity}, #{reply}, #{clientName})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update HMS.remark
+        <set>
+            <if test="star != null">
+                star = #{star},
+            </if>
+            <if test="text != null and text != ''">
+                text = #{text},
+            </if>
+            <if test="imgPath != null and imgPath != ''">
+                img_path = #{imgPath},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="anonymity != null">
+                anonymity = #{anonymity},
+            </if>
+            <if test="reply != null and reply != ''">
+                reply = #{reply},
+            </if>
+            <if test="clientName != null and clientName != ''">
+                client_name = #{clientName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from HMS.remark where id = #{id}
+    </delete>
+
+</mapper>

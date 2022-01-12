@@ -13,6 +13,8 @@ import java.util.List;
 public interface HotelService {
     Boolean queryByName(String hotelName);
 
+    Hotel queryEntityByName(String hotelName);
+
     int insert(Hotel hotel);
 
     Hotel queryById(long id);

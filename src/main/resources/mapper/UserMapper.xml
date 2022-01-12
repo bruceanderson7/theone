@@ -25,6 +25,13 @@
         where uuid = #{uuid}
     </select>
 
+    <select id="queryById" resultType="com.example.demo.entity.User">
+        select
+            id, uuid, name, password, email, phone, gender, role, scout, imgPath, status
+        from HMS.user
+        where id = #{id}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select * from user order by id limit ${page}, ${count}

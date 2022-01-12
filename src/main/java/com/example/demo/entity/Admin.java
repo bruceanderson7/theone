@@ -14,13 +14,13 @@ import java.io.Serializable;
 public class Admin implements Serializable {
     private static final long serialVersionUID = 214578368536934372L;
     
-    private Long id;
+    private long id;
     
     private String name;
     
-    private Long hotelId;
+    private long hotelId;
     
-    private Long userId;
+    private long userId;
 
 
 }

@@ -27,7 +27,7 @@
         select
           id, traffic, metro, attraction, status, type, imgPath, hotel_id
         from HMS.hotel_temp
-        limit #{offset}, #{limit}
+                 limit #{page}, #{count}
     </select>
 
     <!--通过实体作为筛选条件查询-->

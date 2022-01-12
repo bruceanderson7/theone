@@ -212,6 +212,10 @@
         select * from Hotel where hotel_name = #{name}
     </select>
 
+    <select id="queryEntityByName" resultMap="BaseResultMap">
+        select * from Hotel where hotel_name = #{name}
+    </select>
+
     <select id="getMyHotel" resultMap="BaseResultMap">
         select * from Hotel where name = #{name}
     </select>

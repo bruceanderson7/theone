@@ -32,7 +32,7 @@
           id, client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status, room_id, user_id
         from HMS.order
             where hotel_name = #{hotelName}
-        limit #{offset}, #{limit}
+            limit #{page}, #{count}
     </select>
 
     <select id="queryMyOrderList" resultMap="BaseResultMap">
@@ -40,7 +40,7 @@
             id, client_name, client_phone, price, hotel_name, hotel_address, create_time, room_type, room_description, status, room_id, user_id
         from HMS.order
         where user_id = #{userId}
-            limit #{offset}, #{limit}
+            limit #{page}, #{count}
     </select>
 
     <!--通过实体作为筛选条件查询-->

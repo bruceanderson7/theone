@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Admin;
-import com.example.demo.entity.Hotel;
-import com.example.demo.entity.Order;
-import com.example.demo.entity.Room;
+import com.example.demo.entity.*;
 import com.example.demo.service.*;
 import com.example.demo.util.DataReturn;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,5 +128,75 @@ public class OrderController {
         orderMap.put("总条数", totals);
         return DataReturn.success(orderMap);
     }
+
+    /*
+    用户取消订单
+     */
+    @GetMapping("/cancel")
+    public DataReturn<Void> cancelOrder(@RequestParam("orderId")long orderId,@RequestParam("uuid")String uuid){
+        Order order = orderService.queryById(orderId);
+        Hotel hotel = hotelService.queryEntityByName(order.getHotelName());
+        Admin admin = adminService.queryByHotelId(hotel.getId());
+        User user = userService.queryById(admin.getUserId());
+        int s = order.getStatus();
+        if(s == 1){
+            order.setStatus(5); //5代表用户已取消
+            orderService.update(order);
+            Room room = roomService.queryById(order.getRoomId());
+            room.setStatus(1);
+            room.setClientPhone(null);
+            room.setClientName(null);
+            roomService.update(room);
+            String msg = "有客户取消订单了\n";
+            String sender = order.getClientName();
+            String title = "用户取消订单";
+            String receiver = user.getEmail();
+            mailService.sendMsgMail(msg, sender, title, receiver);
+        }
+        else if(s == 2){
+            order.setStatus(4); //4代表订单申请取消中
+            orderService.update(order);
+            String msg = "有客户申请取消订单了，请及时处理\n";
+            String sender = order.getClientName();
+            String title = "用户申请取消订单";
+            String receiver = user.getEmail();
+            mailService.sendMsgMail(msg, sender, title, receiver);
+        }
+        else
+            return DataReturn.failure("请求参数错误");
+
+        return DataReturn.success();
+    }
+
+    /*
+    管理员处理用户取消订单申请
+     */
+    @GetMapping("/dealWithCancel")
+    public DataReturn<Void> dealWithCancel(@RequestParam("orderId")long orderId,@RequestParam("option")int option){
+        Order order = orderService.queryById(orderId);
+        User user = userService.queryById(order.getUserId());
+        //1代表同意用户取消订单，2代表不同意
+        if(option == 1){
+            order.setStatus(5); //5代表已取消
+            orderService.update(order);
+            Room room = roomService.queryById(order.getRoomId());
+            room.setStatus(1);
+            room.setClientPhone(null);
+            room.setClientName(null);
+            roomService.update(room);
+            String msg = "您的订单已成功取消\n";
+            String sender = order.getHotelName();
+            String title = "取消订单回复";
+            String receiver = user.getEmail();
+            mailService.sendMsgMail(msg, sender, title, receiver);
+        }
+        if(option == 2){
+            /*
+            一些逻辑，基本用不到
+             */
+        }
+        return DataReturn.success();
+    }
+
 
 }

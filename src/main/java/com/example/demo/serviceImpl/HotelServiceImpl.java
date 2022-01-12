@@ -31,6 +31,10 @@ public class HotelServiceImpl implements HotelService {
             return false;
     }
 
+    public Hotel queryEntityByName(String hotelName){
+        return hotelMapper.queryEntityByName(hotelName);
+    }
+
     public int insert(Hotel hotel){
         int i = 0;
         if(hotel == null)
