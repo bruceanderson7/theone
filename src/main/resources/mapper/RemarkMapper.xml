@@ -23,6 +23,13 @@
         where id = #{id}
     </select>
 
+    <select id="queryByOrderId" resultMap="BaseResultMap">
+        select
+            id, star, text, img_path, order_id, create_time, anonymity, reply, client_name
+        from HMS.remark
+        where order_id = #{OrderId}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
@@ -127,5 +134,7 @@
     <delete id="deleteById">
         delete from HMS.remark where id = #{id}
     </delete>
+
+
 
 </mapper>

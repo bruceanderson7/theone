@@ -1,6 +1,6 @@
 package com.example.demo.serviceImpl;
 
-import com.example.demo.job.DemoJob;
+import com.example.demo.job.UpdateStar;
 import com.example.demo.service.QuartzService;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class QuartzServiceImpl implements QuartzService {
 
     public void addJob(String jName, String jGroup, String tName, String tGroup, String cron){
         try{
-            JobDetail jobDetail = JobBuilder.newJob(DemoJob.class).withIdentity(jName,jGroup).build();
+            JobDetail jobDetail = JobBuilder.newJob(UpdateStar.class).withIdentity(jName,jGroup).build();
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(tName, tGroup).startNow().withSchedule(CronScheduleBuilder.cronSchedule(cron)).build();
             scheduler.start();
             scheduler.scheduleJob(jobDetail,trigger);

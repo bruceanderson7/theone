@@ -67,4 +67,8 @@ public class RemarkServiceImpl implements RemarkService {
         else
             return remarkMapper.queryById(id);
     }
+
+    public Remark queryByOrderId(long orderId){
+        return remarkMapper.queryByOrderId(orderId);
+    }
 }

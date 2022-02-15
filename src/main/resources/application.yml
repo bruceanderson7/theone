@@ -7,6 +7,10 @@ server:
       charset: UTF-8
 
 spring:
+  thymeleaf:
+    mode: HTML5
+    encoding: utf-8
+    cache: false
   quartz:
     properties:
       org:
@@ -30,12 +34,13 @@ spring:
   shiro:
     filterChainDefinitionMap:
       /logout: logout
-      /**: authc
+      /**: anon
       /hotel/getList: anon
       /hotel/getDetail: anon
       /hotel/searchByName: anon
       /hotel/screen: anon
       /hotel/screenAndSearch: anon
+      /user/login: anon
 
 
   #图片上传

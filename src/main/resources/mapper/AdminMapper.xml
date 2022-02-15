@@ -23,7 +23,7 @@
         select
           id, name, hotel_id, user_id
         from HMS.admin
-        limit #{offset}, #{limit}
+        limit #{page}, #{count}
     </select>
 
     <!--通过实体作为筛选条件查询-->

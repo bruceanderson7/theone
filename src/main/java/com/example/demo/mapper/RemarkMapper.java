@@ -43,6 +43,8 @@ public interface RemarkMapper {
      */
     void deleteById(long id);
 
+    Remark queryByOrderId(long orderId);
+
 
     List<Remark> queryGoodRemark(int page, int count);
 

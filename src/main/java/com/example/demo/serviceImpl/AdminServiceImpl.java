@@ -15,7 +15,7 @@ import java.util.List;
  * @author makejava
  * @since 2022-01-05 15:10:28
  */
-@Service("adminService")
+@Service
 public class AdminServiceImpl implements AdminService {
     @Resource
     private AdminMapper adminMapper;
@@ -31,16 +31,12 @@ public class AdminServiceImpl implements AdminService {
         return this.adminMapper.queryById(id);
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
+
     @Override
-    public List<Admin> queryAllByLimit(int offset, int limit) {
-        return this.adminMapper.queryAllByLimit(offset, limit);
+    public List<Admin> queryAllByLimit(int page, int count) {
+        int start = page*count-count;
+        int end = page*count;
+        return adminMapper.queryAllByLimit(start, end);
     }
 
     /**
@@ -50,21 +46,17 @@ public class AdminServiceImpl implements AdminService {
      * @return 实例对象
      */
     @Override
-    public Admin insert(Admin admin) {
-        this.adminMapper.insert(admin);
-        return admin;
+    public int insert(Admin admin) {
+        int i = 0;
+        i = adminMapper.insert(admin);
+        return i;
     }
 
-    /**
-     * 修改数据
-     *
-     * @param admin 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public Admin update(Admin admin) {
-        this.adminMapper.update(admin);
-        return this.queryById(admin.getId());
+    public void deleteById(long id){
+        adminMapper.deleteById(id);
     }
 
+    public Admin queryByHotelId(long id){
+return null;
+    }
 }

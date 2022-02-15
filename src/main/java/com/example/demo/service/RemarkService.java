@@ -49,4 +49,6 @@ public interface RemarkService {
 
     List<Remark> queryBadRemark(int page, int count);
 
+    Remark queryByOrderId(long orderId);
+
 }

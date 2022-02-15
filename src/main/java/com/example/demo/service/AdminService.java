@@ -19,14 +19,8 @@ public interface AdminService {
      */
     Admin queryById(Long id);
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<Admin> queryAllByLimit(int offset, int limit);
+
+    List<Admin> queryAllByLimit(int page, int count);
 
     /**
      * 新增数据
@@ -34,15 +28,10 @@ public interface AdminService {
      * @param admin 实例对象
      * @return 实例对象
      */
-    Admin insert(Admin admin);
+    int insert(Admin admin);
 
-    /**
-     * 修改数据
-     *
-     * @param admin 实例对象
-     * @return 实例对象
-     */
-    Admin update(Admin admin);
+    void deleteById(long id);
 
 
+    Admin queryByHotelId(long id);
 }
