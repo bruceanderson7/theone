@@ -9,8 +9,11 @@ server:
 spring:
   thymeleaf:
     mode: HTML5
-    encoding: utf-8
+    encoding: UTF-8
     cache: false
+    enabled: true
+    prefix: classpath:/template/
+    suffix: .html
   quartz:
     properties:
       org:
@@ -33,6 +36,7 @@ spring:
 
   shiro:
     filterChainDefinitionMap:
+      /user/login: anon
       /logout: logout
       /**: anon
       /hotel/getList: anon
@@ -40,7 +44,6 @@ spring:
       /hotel/searchByName: anon
       /hotel/screen: anon
       /hotel/screenAndSearch: anon
-      /user/login: anon
 
 
   #图片上传

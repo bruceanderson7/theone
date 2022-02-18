@@ -1,6 +1,6 @@
 function login(){
-    const name = document.getElementById("1").value;
-    const password = document.getElementById("2").value;
+    const name = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
     var ajax = new XMLHttpRequest();
     ajax.open("post","/user/login");
     ajax.setRequestHeader("Content-type","application/json;charset = utf-8")

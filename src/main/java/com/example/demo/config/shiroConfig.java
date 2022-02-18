@@ -49,10 +49,11 @@ public class shiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         Map<String, String> map = new HashMap<>();
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
-        shiroFilterFactoryBean.setSuccessUrl("/index.html");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error.html");
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/error");
         //不会被拦截的链接
+        map.put("/user/login","anon");
         map.put("/hotel/getList","anon");
         map.put("/hotel/getDetail","anon");
         map.put("/hotel/searchByName","anon");

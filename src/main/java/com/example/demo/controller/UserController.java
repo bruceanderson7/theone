@@ -16,6 +16,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,7 +92,7 @@ public class UserController {
         return DataReturn.failure();
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public DataReturn<?> userLogin(@RequestParam("name") String name,
                                    @RequestParam("password") String password) {
         //返回值DataReturn<?>代表无界通配符，即返回数据可以是object可以是string等等
@@ -100,7 +101,7 @@ public class UserController {
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
             User user = userService.verifyUser(name, md5Password);
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(),user.getPassword());
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(name,password);
             try{
                 subject.login(usernamePasswordToken);
             }catch (UnknownAccountException e){
